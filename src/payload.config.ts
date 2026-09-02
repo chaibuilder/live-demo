@@ -28,7 +28,7 @@ const dirname = path.dirname(filename)
  */
 const PLACEHOLDER_DATABASE_URL = 'file:/tmp/chai-placeholder.db'
 const PLACEHOLDER_SECRET = 'chai-unconfigured-placeholder-secret'
-const DEMO_LOGIN_EMAILS = ['demo1@jbuilder.com', 'demo2@jbuilder.com'] as const
+const DEMO_LOGIN_EMAILS = ['demo1@chaibuilder.com', 'demo2@chaibuilder.com'] as const
 
 export type PayloadConfigOverrides = {
   /**
