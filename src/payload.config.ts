@@ -86,7 +86,7 @@ export function buildPayloadConfig(overrides: PayloadConfigOverrides = {}) {
     admin: {
       user: Users.slug,
       autoLogin: {
-        email: 'demo@chaibuilder.com',
+        email: 'demo1@chaibuilder.com',
         password: 'Demo#123',
         prefillOnly: true,
       },
