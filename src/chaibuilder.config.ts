@@ -14,6 +14,7 @@ import {
 } from 'chaipro/payload'
 import { aiPlugin } from 'chaipro/plugins/ai-pro/server'
 import { animationPlugin } from 'chaipro/plugins/animation/server'
+import { multilingualPlugin } from 'chaipro/plugins/multilingual/server'
 import { redirectsPlugin } from 'chaipro/plugins/redirects/server'
 import { revisionsPlugin } from 'chaipro/plugins/revisions/server'
 import { trashPlugin } from 'chaipro/plugins/trash/server'
@@ -107,6 +108,23 @@ const aiModels = AI_MODELS.map(({ gateway, openrouter, ...model }) => ({
   id: process.env.OPENROUTER_API_KEY ? openrouter : gateway,
 }))
 
+const hasAiCredentials = Boolean(process.env.OPENROUTER_API_KEY || process.env.AI_GATEWAY_API_KEY)
+
+/**
+ * Stub AI provider for deployments without AI credentials. The `[chai:ai-setup] `
+ * prefix makes the AI panel show the message verbatim instead of guessing at the
+ * failure ("Your session has expired ...").
+ */
+const AI_DISABLED_ERROR = '[chai:ai-setup] AI is not enabled in this demo project.'
+const aiDisabledProvider = {
+  languageModel: (): never => {
+    throw new Error(AI_DISABLED_ERROR)
+  },
+  imageModel: (): never => {
+    throw new Error(AI_DISABLED_ERROR)
+  },
+}
+
 const chaiConfig: Readonly<ResolvedChaiBuilderServerConfig> = buildChaiBuilderConfig({
   payloadConfig: config,
   db: createLibsqlDB({
@@ -124,9 +142,11 @@ const chaiConfig: Readonly<ResolvedChaiBuilderServerConfig> = buildChaiBuilderCo
     aiPlugin(),
     revisionsPlugin({ drafts: true, maxRevisions: 10 }),
     animationPlugin(),
+    multilingualPlugin(),
   ],
   ai: {
     providers: process.env.OPENROUTER_API_KEY ? [openRouterProvider] : undefined,
+    provider: hasAiCredentials ? undefined : aiDisabledProvider,
     models: aiModels,
   },
   globalDataProvider: asChaiBuilderGlobalProvider({ slug: 'site-config' }),
