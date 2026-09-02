@@ -6,6 +6,7 @@ import { PreviewBanner } from 'chaipro/nextjs/render-client'
 import { loadWebBlocks } from 'chaipro/web-blocks'
 import type { Metadata } from 'next'
 import { draftMode } from 'next/headers'
+import { AnalyticsScripts } from '@/components/AnalyticsScripts'
 
 registerProjectFonts()
 loadWebBlocks()
@@ -44,6 +45,7 @@ export default async function Page(props: PageProps) {
       <body className={`font-body antialiased`}>
         <PreviewBanner show={isEnabled} />
         <RenderChaiBlocks pageData={pageData} settings={settings} page={page} pageProps={pageProps} />
+        <AnalyticsScripts />
       </body>
     </html>
   )

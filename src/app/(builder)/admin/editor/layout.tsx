@@ -2,6 +2,7 @@ import { getMeUser } from '@/utilities/getMeUser'
 import { adminUrl } from '@/utilities/adminRoute'
 import type { Metadata } from 'next'
 import { Geist } from 'next/font/google'
+import { AnalyticsScripts } from '@/components/AnalyticsScripts'
 import './builder.css'
 
 const geist = Geist({ subsets: ['latin'] })
@@ -22,7 +23,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang="en" className="dark">
-      <body className={geist.className}>{children}</body>
+      <body className={geist.className}>
+        {children}
+        <AnalyticsScripts />
+      </body>
     </html>
   )
 }
