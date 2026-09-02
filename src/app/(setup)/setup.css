@@ -1,0 +1,1047 @@
+/*
+ * Self-contained styles for the setup wizard.
+ *
+ * Deliberately plain CSS rather than the site's Tailwind build: setup runs on a
+ * deployment that has not been configured yet, and must render even if the
+ * site's own styles failed to generate.
+ */
+
+:root {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-hover: #f1f5f9;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --muted: #64748b;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-glow: rgba(37, 99, 235, 0.15);
+  --primary-text: #ffffff;
+  --ok: #10b981;
+  --ok-bg: #ecfdf5;
+  --warn: #f59e0b;
+  --warn-bg: #fffbeb;
+  --error: #ef4444;
+  --error-bg: #fef2f2;
+  --code-bg: #0f172a;
+  --code-text: #f8fafc;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 16px -2px rgba(0, 0, 0, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #09090b;
+    --surface: #121215;
+    --surface-hover: #18181b;
+    --border: #27272a;
+    --text: #f4f4f5;
+    --muted: #a1a1aa;
+    --primary: #3b82f6;
+    --primary-hover: #60a5fa;
+    --primary-glow: rgba(59, 130, 246, 0.2);
+    --ok: #34d399;
+    --ok-bg: #064e3b;
+    --warn: #fbbf24;
+    --warn-bg: #451a03;
+    --error: #f87171;
+    --error-bg: #450a0a;
+    --code-bg: #18181b;
+    --code-text: #f4f4f5;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  /* The page itself never scrolls. Anything that does not fit scrolls inside
+     the card body or `.scroll-area`, so the primary action stays in view. */
+  overflow: hidden;
+}
+
+.wrap {
+  /* dvh, not vh: on phones the URL bar is part of `vh`, so `100vh` would put the
+     primary button under it. */
+  height: 100dvh;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 24px 20px;
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  /* Lets the flexible child shrink below its content height instead of
+     pushing the shell past the viewport. */
+  min-height: 0;
+}
+
+/* The one card the wizard shows: header and nav pinned, fields scroll between
+   them when the viewport is short. */
+.wrap > form.card {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+}
+
+.card-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  /* Keeps focus rings on full-width inputs off the scrollbar. */
+  padding-right: 4px;
+}
+
+/* Screens made of several cards (success, status) scroll as a group instead. */
+.scroll-area {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.scroll-area > *:last-child {
+  margin-bottom: 4px;
+}
+
+/* Brand Header Component */
+.brand-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex: 0 0 auto;
+}
+
+.brand-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.brand-title {
+  font-size: 20px;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.brand-badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--primary-glow);
+  color: var(--primary);
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.brand {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+h1 {
+  font-size: 25px;
+  line-height: 1.25;
+  margin: 0 0 6px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  flex: 0 0 auto;
+}
+
+h2 {
+  font-size: 19px;
+  margin: 0 0 6px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: 15px;
+  margin: 20px 0 8px;
+  font-weight: 650;
+}
+
+p {
+  margin: 0 0 14px;
+}
+
+.lede {
+  color: var(--muted);
+  font-size: 15px;
+  margin-bottom: 16px;
+  line-height: 1.5;
+  flex: 0 0 auto;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px 24px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-md);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.step-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  font-size: 14px;
+  margin: 16px 0 6px;
+}
+
+.field-hint {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 400;
+  margin: 2px 0 6px;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text);
+  /* 16px exactly: iOS Safari zooms the page in when a focused field is smaller,
+     which would break the one-viewport layout on every tap. */
+  font-size: 16px;
+  font-family: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+button {
+  font: inherit;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 11px 20px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  background: var(--primary);
+  color: var(--primary-text);
+  transition: background-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+}
+
+button:not(.secondary):not(.link):hover:not(:disabled) {
+  background: var(--primary-hover);
+  box-shadow: 0 2px 8px var(--primary-glow);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+button.secondary {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+button.secondary:hover:not(:disabled) {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+button.link {
+  background: none;
+  border: none;
+  color: var(--primary);
+  padding: 0;
+  box-shadow: none;
+  text-decoration: underline;
+}
+
+button.link:hover:not(:disabled) {
+  background: none;
+  box-shadow: none;
+  color: var(--primary-hover);
+  transform: none;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+/* Three actions side by side overrun the 700px column by a few pixels at the
+   default button padding, and wrapping one onto its own row reads as an
+   afterthought rather than a third choice. */
+.actions--tight {
+  gap: 10px;
+}
+
+.actions--tight button,
+.actions--tight .button-link {
+  padding-left: 14px;
+  padding-right: 14px;
+}
+
+.note {
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 14px;
+  margin: 16px 0;
+  border: 1px solid transparent;
+  line-height: 1.5;
+}
+
+.note.ok {
+  background: var(--ok-bg);
+  color: var(--ok);
+  border-color: currentColor;
+}
+
+.note.warn {
+  background: var(--warn-bg);
+  color: var(--warn);
+  border-color: currentColor;
+}
+
+.note.error {
+  background: var(--error-bg);
+  color: var(--error);
+  border-color: currentColor;
+}
+
+ol.steps,
+ul.steps {
+  padding-left: 20px;
+  margin: 0 0 14px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+ol.steps li,
+ul.steps li {
+  margin-bottom: 6px;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Announced by screen readers, absent for everyone else — used to say that a
+   link opens in a new tab. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+pre {
+  background: var(--code-bg);
+  color: var(--code-text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0 0 14px;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.checklist li {
+  display: flex;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.checklist li:last-child {
+  border-bottom: none;
+}
+
+.badge {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 2px;
+  color: #fff;
+}
+
+.badge.ok {
+  background: var(--ok);
+}
+
+.badge.warn {
+  background: var(--warn);
+}
+
+.badge.error {
+  background: var(--error);
+}
+
+.check-label {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.check-detail {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.progress {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 8px;
+  font-size: 14px;
+}
+
+.progress li {
+  padding: 6px 0;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.progress li.done {
+  color: var(--ok);
+  font-weight: 500;
+}
+
+.progress li.active {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* Step wizard */
+
+.stepper {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  margin: 0 0 14px;
+  flex: 0 0 auto;
+}
+
+.stepper-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.stepper-link:disabled {
+  cursor: default;
+  opacity: 0.9;
+}
+
+.stepper-num {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 700;
+  flex: 0 0 auto;
+}
+
+.stepper li.current .stepper-link {
+  color: var(--text);
+  border-color: var(--primary);
+  background: var(--surface);
+  box-shadow: 0 0 0 2px var(--primary-glow);
+  font-weight: 650;
+}
+
+.stepper li.current .stepper-num {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-text);
+}
+
+.stepper li.done .stepper-link {
+  color: var(--text);
+  background: var(--surface);
+}
+
+.stepper li.done .stepper-num {
+  background: var(--ok);
+  border-color: var(--ok);
+  color: #ffffff;
+}
+
+.stepper li.done .stepper-link:not(:disabled):hover {
+  background: var(--surface-hover);
+  border-color: var(--border);
+}
+
+/* A step the deployment already satisfies: shown ticked, never navigated to. */
+.stepper li.satisfied .stepper-link {
+  cursor: default;
+  color: var(--muted);
+  background: transparent;
+  border-color: transparent;
+}
+
+.step-head h2:focus {
+  outline: none;
+}
+
+.step-head h2:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+.step-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  flex: 0 0 auto;
+}
+
+.step-nav-end {
+  display: flex;
+  gap: 12px;
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+
+.review-list {
+  margin: 0;
+}
+
+.review-row {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.review-row:last-child {
+  border-bottom: none;
+}
+
+.review-row dt {
+  flex: 0 0 140px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.review-row dd {
+  margin: 0;
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 14px;
+}
+
+.review-row dd > span {
+  overflow-wrap: anywhere;
+}
+
+.muted-value {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.review-row .link {
+  margin-left: auto;
+  font-size: 13px;
+  flex: 0 0 auto;
+}
+
+.cli-aside {
+  margin-top: 20px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+  font-size: 14px;
+}
+
+.hint-inline {
+  color: var(--muted);
+}
+
+.cli-command {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--code-bg);
+  color: var(--code-text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 9px 14px;
+  margin-top: 10px;
+}
+
+.cli-command code {
+  flex: 1 1 auto;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+}
+
+.cli-command .link {
+  flex: 0 0 auto;
+  font-size: 13px;
+}
+
+/* Creating-the-site progress. The server reports no intermediate state, so this
+   is an estimate that eases toward 92% and completes when the work does. */
+.progress-bar {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  margin: 20px 0 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 999px;
+  transition: width 0.3s ease-out;
+}
+
+.provider-choice {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin: 16px 0 6px;
+}
+
+.provider-choice legend {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 0 6px;
+}
+
+.provider-choice label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-weight: 400;
+  font-size: 14px;
+  margin: 8px 0;
+  cursor: pointer;
+}
+
+.provider-choice input {
+  margin-top: 4px;
+  flex: 0 0 auto;
+}
+
+/* Anchors that look like buttons. A <button> inside an <a> is invalid HTML and
+   breaks keyboard and assistive-tech behaviour. */
+.button-link {
+  display: inline-block;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 11px 20px;
+  border: 1px solid transparent;
+  background: var(--primary);
+  color: var(--primary-text);
+  text-decoration: none;
+  transition: background-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+}
+
+.button-link:hover {
+  text-decoration: none;
+  box-shadow: 0 2px 8px var(--primary-glow);
+}
+
+.button-link.secondary {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.button-link.secondary:hover {
+  background: var(--surface-hover);
+  box-shadow: none;
+}
+
+/* Two fields per row, so the five S3 values do not read as a long column. */
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 16px;
+}
+
+.field-grid .span-2 {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 560px) {
+  .field-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Show/hide toggle sitting inside the password input. */
+.password-field {
+  position: relative;
+}
+
+.password-field input {
+  padding-right: 64px;
+}
+
+.password-field .link {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--border);
+  margin: 0 0 14px;
+}
+
+.tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  padding: 8px 12px;
+  color: var(--muted);
+  font-size: 14px;
+  box-shadow: none;
+}
+
+.tab:hover:not(:disabled) {
+  background: none;
+  box-shadow: none;
+  color: var(--text);
+}
+
+.tab[aria-selected='true'] {
+  color: var(--text);
+  border-bottom-color: var(--primary);
+  font-weight: 650;
+}
+
+/* Optional storage/AI on the last step. Collapsed is the skip: <details> needs
+   no extra button and no state to keep in sync. */
+.extras-lede {
+  margin-top: 14px;
+}
+
+.extra {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  background: var(--bg);
+}
+
+.extra > summary {
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 620;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.extra > summary::-webkit-details-marker {
+  display: none;
+}
+
+.extra > summary::before {
+  content: '›';
+  display: inline-block;
+  font-size: 17px;
+  line-height: 1;
+  color: var(--muted);
+  transition: transform 0.15s ease;
+}
+
+.extra > summary:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.extra[open] > summary {
+  margin-bottom: 8px;
+}
+
+.extra[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.extra__tag {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Inside a collapsible the first label would otherwise double the gap the
+   summary already leaves. */
+.extra > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Generated environment blocks: capped so a long one never pushes the copy
+   button out of reach. */
+.env-block {
+  max-height: 220px;
+  overflow: auto;
+  margin-bottom: 0;
+}
+
+/*
+ * Phones and very short windows.
+ *
+ * The one-viewport shell is a desktop nicety. On a phone it fights the on-screen
+ * keyboard — which shrinks `dvh` mid-typing and leaves a scrollable box inside a
+ * fixed box — so the page reverts to ordinary document scroll, which is what a
+ * phone user expects anyway. The rest of these rules are sizing.
+ */
+@media (max-width: 560px), (max-height: 560px) {
+  body {
+    overflow: auto;
+  }
+
+  .wrap {
+    height: auto;
+    min-height: 100dvh;
+  }
+
+  .wrap > form.card {
+    flex: 0 0 auto;
+  }
+
+  .card-body,
+  .scroll-area {
+    overflow: visible;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .wrap {
+    padding-top: 16px;
+  }
+
+  h1 {
+    font-size: 21px;
+  }
+
+  .lede {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+
+  .card {
+    padding: 18px 16px;
+    border-radius: 14px;
+  }
+
+  /* Numbers only: three labelled pills do not fit a 360px screen without
+     wrapping onto a second row and eating the card's height. */
+  .stepper-title {
+    display: none;
+  }
+
+  .stepper {
+    gap: 6px;
+  }
+
+  .stepper-link {
+    padding: 6px 10px;
+  }
+
+  .stepper li.current .stepper-link {
+    /* The current step keeps its label — it is the only one that names where
+       you are now that the others are numbers. */
+    padding-right: 14px;
+  }
+
+  .stepper li.current .stepper-title {
+    display: inline;
+  }
+
+  /* Full-width, thumb-sized actions rather than a cramped row. */
+  .step-nav button,
+  .actions button,
+  .actions .button-link {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+
+  .step-nav-end {
+    flex: 1 1 auto;
+  }
+
+  .review-row {
+    display: block;
+    padding: 10px 0;
+  }
+
+  .review-row dt {
+    flex: none;
+    color: var(--muted);
+  }
+
+  .review-row dd {
+    margin-top: 2px;
+  }
+
+  /* Nobody scaffolds a project from their phone: the command is unusable here
+     and only pushes the fields down. */
+  .cli-aside {
+    display: none;
+  }
+
+  label {
+    margin: 12px 0 4px;
+  }
+
+  input[type='text'],
+  input[type='email'],
+  input[type='password'] {
+    padding: 10px 12px;
+  }
+
+  .step-head {
+    margin-bottom: 6px;
+  }
+
+  h2 {
+    font-size: 17px;
+  }
+
+  .hint {
+    margin-bottom: 10px;
+  }
+
+  pre {
+    font-size: 12px;
+  }
+}
+
+/* Landscape phones and short desktop windows: trim the header, since the page
+   scrolls here anyway. */
+@media (max-height: 560px) {
+  h1 {
+    font-size: 19px;
+    margin-bottom: 8px;
+  }
+
+  .wrap {
+    padding-top: 14px;
+  }
+}
