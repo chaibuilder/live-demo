@@ -85,6 +85,11 @@ export function buildPayloadConfig(overrides: PayloadConfigOverrides = {}) {
     },
     admin: {
       user: Users.slug,
+      autoLogin: {
+        email: 'demo@chaibuilder.com',
+        password: 'Demo#123',
+        prefillOnly: true,
+      },
       importMap: {
         baseDir: path.resolve(dirname),
       },
