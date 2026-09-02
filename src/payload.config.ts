@@ -28,6 +28,7 @@ const dirname = path.dirname(filename)
  */
 const PLACEHOLDER_DATABASE_URL = 'file:/tmp/chai-placeholder.db'
 const PLACEHOLDER_SECRET = 'chai-unconfigured-placeholder-secret'
+const DEMO_LOGIN_EMAILS = ['demo1@jbuilder.com', 'demo2@jbuilder.com'] as const
 
 export type PayloadConfigOverrides = {
   /**
@@ -86,7 +87,7 @@ export function buildPayloadConfig(overrides: PayloadConfigOverrides = {}) {
     admin: {
       user: Users.slug,
       autoLogin: {
-        email: 'demo1@chaibuilder.com',
+        email: DEMO_LOGIN_EMAILS[Math.floor(Math.random() * DEMO_LOGIN_EMAILS.length)],
         password: 'Demo#123',
         prefillOnly: true,
       },
@@ -144,7 +145,6 @@ export function buildPayloadConfig(overrides: PayloadConfigOverrides = {}) {
       push: process.env.PAYLOAD_DB_PUSH === 'true',
       beforeSchemaInit: [chaiBuilderSchemaHookSqlite],
       idType: 'uuid',
-      transactionOptions: {},
       migrationDir: path.resolve(dirname, 'migrations'),
       // Deliberately no `prodMigrations`: it migrates on every production
       // `payload.init`, including during `next build`. Against a database whose

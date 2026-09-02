@@ -18,7 +18,7 @@ export function CustomLoginView(props: AdminViewServerProps) {
           <div className="text-center font-medium">Login with these credentials</div>
           <div className="flex w-full justify-between items-center px-4">
             <span>
-              Email : <strong>demo1@chaibuilder.com</strong>
+              Email : <strong>demo1@chaibuilder.com/demo2@chaibuilder.com</strong>
             </span>
           </div>
           <div className="flex w-full justify-between items-center px-4">
