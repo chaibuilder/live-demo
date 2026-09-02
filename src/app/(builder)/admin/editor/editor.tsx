@@ -62,7 +62,6 @@ export default function Editor({ accessToken }: { accessToken: string }) {
         getLiveUrl={getLiveUrl}
         onLogout={logoutUser}
         currentUser={null}
-        {/* websocket={supabaseClient} */}
       />
     </>
   )
