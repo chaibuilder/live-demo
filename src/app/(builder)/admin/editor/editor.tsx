@@ -14,7 +14,7 @@ import { pageErrorsClientPlugin } from 'chaipro/plugins/page-errors/client'
 import { redirectsClientPlugin } from 'chaipro/plugins/redirects/client'
 import { revisionsClientPlugin } from 'chaipro/plugins/revisions/client'
 import { trashClientPlugin } from 'chaipro/plugins/trash/client'
-import { createChaiRealtimeClient, realtimeClientPlugin } from 'chaipro/plugins/realtime/client'
+// import { createChaiRealtimeClient, realtimeClientPlugin } from 'chaipro/plugins/realtime/client'
 
 // Mirrors the server list in src/chaibuilder.config.ts — only these feature
 // UIs ship in the editor bundle. One import per plugin (not the
@@ -26,7 +26,7 @@ const chaiClientPlugins = [
   trashClientPlugin,
   aiProClientPlugin,
   pageErrorsClientPlugin,
-  realtimeClientPlugin,
+  // realtimeClientPlugin,
   revisionsClientPlugin,
   animationClientPlugin,
 ]
@@ -35,7 +35,7 @@ registerProjectFonts()
 registerCustomBlocks()
 registerChaiLibrary('chai-library', defaultChaiLibrary())
 
-const supabaseClient = createChaiRealtimeClient()
+// const supabaseClient = createChaiRealtimeClient()
 
 export default function Editor({ accessToken }: { accessToken: string }) {
   const getAccessToken = useCallback(async () => accessToken, [accessToken])
@@ -62,7 +62,7 @@ export default function Editor({ accessToken }: { accessToken: string }) {
         getLiveUrl={getLiveUrl}
         onLogout={logoutUser}
         currentUser={null}
-        websocket={supabaseClient}
+        {/* websocket={supabaseClient} */}
       />
     </>
   )
