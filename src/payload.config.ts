@@ -81,7 +81,7 @@ export function buildPayloadConfig(overrides: PayloadConfigOverrides = {}) {
     },
     localization: {
       defaultLocale: 'en',
-      locales: ['en'],
+      locales: ['en', 'es'],
       fallback: true,
     },
     admin: {
