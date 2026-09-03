@@ -10,6 +10,7 @@ import { defaultChaiLibrary, registerChaiLibrary } from 'chaipro'
 import { ChaiWebsiteBuilder } from 'chaipro/payload/builder'
 import { aiProClientPlugin } from 'chaipro/plugins/ai-pro/client'
 import { animationClientPlugin } from 'chaipro/plugins/animation/client'
+import { multilingualClientPlugin } from 'chaipro/plugins/multilingual/client'
 import { pageErrorsClientPlugin } from 'chaipro/plugins/page-errors/client'
 import { redirectsClientPlugin } from 'chaipro/plugins/redirects/client'
 import { revisionsClientPlugin } from 'chaipro/plugins/revisions/client'
@@ -29,6 +30,7 @@ const chaiClientPlugins = [
   // realtimeClientPlugin,
   revisionsClientPlugin,
   animationClientPlugin,
+  multilingualClientPlugin,
 ]
 
 registerProjectFonts()
