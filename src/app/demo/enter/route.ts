@@ -67,6 +67,11 @@ export async function GET(request: NextRequest): Promise<Response> {
   }
 
   const { appId } = await createAppRecord(client, { appName: 'Demo Sandbox', userId: String(user.id) })
+  // One extra language so the topbar language switcher (hidden on
+  // single-language sites) and the whole multilingual flow are demoable.
+  for (const table of ['apps', 'apps_online']) {
+    await client.execute({ sql: `UPDATE ${table} SET languages = ? WHERE id = ?`, args: ['["fr"]', appId] })
+  }
   recentByIp.get(ip)?.push(Date.now()) ?? recentByIp.set(ip, [Date.now()])
 
   const expires = Math.floor(Date.now() / 1000) + SANDBOX_TTL_SECONDS
