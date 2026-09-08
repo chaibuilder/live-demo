@@ -1,4 +1,5 @@
 import config from '@/chaibuilder.config'
+import { resolveDemoSandboxAppId } from '@/lib/demo-sandbox/resolve-app-id'
 import { createPayloadChaiBuilder } from 'chaipro/payload'
 
 /**
@@ -11,4 +12,8 @@ import { createPayloadChaiBuilder } from 'chaipro/payload'
  * What a user may do comes from their `app_users` membership — a Payload login by itself grants
  * no builder access.
  */
-export const { getChaiBuilder } = createPayloadChaiBuilder(config)
+export const { getChaiBuilder } = createPayloadChaiBuilder(config, {
+  // Sandbox mode (DEMO_SANDBOX=true): tenant comes from the signed sandbox
+  // cookie; otherwise this resolves to CHAIBUILDER_APP_KEY as before.
+  appId: resolveDemoSandboxAppId,
+})
